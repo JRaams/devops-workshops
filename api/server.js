@@ -16,21 +16,21 @@ app.use(bodyParser.json());
 
 // Connect to Mongoose and set connection variable
 // MongoDB connection
-console.log('connection string', environment.mongodb.uri);
-console.log('secret', environment.secret);
 mongoose.connect(environment.mongodb.uri, {
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 mongoose.Promise = global.Promise;
 
 // On connection error
 mongoose.connection.on('error', (error) => {
+  // eslint-disable-next-line no-console
   console.log('Database error: ', error);
 });
 
 // On successful connection
 mongoose.connection.on('connected', () => {
+  // eslint-disable-next-line no-console
   console.log('Connected to database');
 });
 
@@ -45,7 +45,7 @@ const allowedExt = [
   '.woff',
   '.ttf',
   '.svg',
-  '.webmanifest'
+  '.webmanifest',
 ];
 
 // Import routes
@@ -59,12 +59,12 @@ app.use(
     getToken: (req) => {
       if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         return req.headers.authorization.split(' ')[1];
-      } else if (req.query && req.query.token) {
+      } if (req.query && req.query.token) {
         return req.query.token;
       }
       return null;
-    }
-  }).unless({ path: ['/api/user/authenticate', '/api/users', '/index.html'] })
+    },
+  }).unless({ path: ['/api/user/authenticate', '/api/users', '/index.html'] }),
 );
 
 // Use Api routes in the App
@@ -83,5 +83,6 @@ const HOST = '0.0.0.0';
 // Launch app to listen to specified port
 const server = app.listen(process.env.EXPRESS_PORT || 3000, HOST, () => {
   const PORT = server.address().port;
+  // eslint-disable-next-line no-console
   console.log(`Running  on http://${HOST}:${PORT}`);
 });
