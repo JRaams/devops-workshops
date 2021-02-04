@@ -1,5 +1,8 @@
 # DevOps-starter
 
+![api](https://github.com/JRaams/devops-workshops/workflows/api/badge.svg)
+![frontend](https://github.com/JRaams/devops-workshops/workflows/frontend/badge.svg)
+
 ### Running the project
 
 1. Setting up the mongo database
