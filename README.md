@@ -1,7 +1,7 @@
 # DevOps-starter
 
-![api](https://github.com/JRaams/devops-workshops/workflows/api/badge.svg?branch=main)
-![frontend](https://github.com/JRaams/devops-workshops/workflows/frontend/badge.svg?branch=main)
+![api](https://github.com/JRaams/devops-workshops/workflows/api/badge.svg)
+![frontend](https://github.com/JRaams/devops-workshops/workflows/frontend/badge.svg)
 
 ### Running the project
 
