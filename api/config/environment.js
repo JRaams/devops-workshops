@@ -1,19 +1,12 @@
-const username = '';
-const password = '';
-const host = 'localhost';
-const port = '27017';
-const database = 'Connections';
-const params = '';
-const secret = 'MyLittleSecret';
-
-let uri = 'mongodb://';
-if (username && password) {
-  uri += `${username}:${password}@`;
+if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line global-require
+    require('dotenv').config();
 }
 
-uri += `${host}:${port}/${database}${params}`;
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://admin:admin@localhost:27017/admin';
+const JWT_SECRET = process.env.JWT_SECRET || 'test';
 
 module.exports = {
-  mongodb: { uri },
-  secret,
+    MONGO_URL,
+    JWT_SECRET,
 };

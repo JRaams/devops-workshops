@@ -4,7 +4,11 @@
 
 1. Setting up the mongo database
 
-Setup env
+Setup env (globally)
+`$ cp .env.example .env`
+
+Setup env (api project)
+`$ cd api`
 `$ cp .env.example .env`
 
 Start mongodb container

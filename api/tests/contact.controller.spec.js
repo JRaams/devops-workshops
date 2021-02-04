@@ -17,27 +17,27 @@ afterEach(async () => dbHandler.clearDatabase());
 afterAll(async () => dbHandler.closeDatabase());
 
 describe('ContactController', () => {
-  it('should return empty array on empty database', async (done) => {
-    const res = await request(app).get('/contacts');
-    expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty('data');
-    expect(res.body.data).toHaveLength(0);
-    done();
-  });
+    it('should return empty array on empty database', async (done) => {
+        const res = await request(app).get('/contacts');
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveLength(0);
+        done();
+    });
 
-  it('should create contact', async (done) => {
-    const firstName = 'henk';
-    const res = await request(app)
-      .post('/contacts')
-      .send({ firstName, lastName: 'test', mobile: '12345566' });
-    expect(res.status).toBe(201);
-    expect(res.body).toHaveProperty('data');
-    expect(res.body.data.firstName).toBe(firstName);
+    it('should create contact', async (done) => {
+        const firstName = 'henk';
+        const res = await request(app)
+            .post('/contacts')
+            .send({ firstName, lastName: 'test', mobile: '12345566' });
+        expect(res.status).toBe(201);
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data.firstName).toBe(firstName);
 
-    const foundContacts = await ContactModel.find({ firstName });
-    expect(foundContacts).toHaveLength(1);
-    expect(foundContacts[0].lastName).toBe('test');
+        const foundContacts = await ContactModel.find({ firstName });
+        expect(foundContacts).toHaveLength(1);
+        expect(foundContacts[0].lastName).toBe('test');
 
-    done();
-  });
+        done();
+    });
 });
