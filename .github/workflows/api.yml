@@ -23,22 +23,26 @@ jobs:
       - name: 2. Setup node
         uses: actions/setup-node@v2.1.4
 
-      # 3. Change directory to API folder
-      - name: 3. Cd to /api
-        run: cd api
-
-      # 4. Clean node_modules
+      # 3. Clean node_modules
       - name: 4. Npm clean install
-        run: npm ci
+        run: |
+          cd api
+          npm ci
 
-      # 5. Build
+      # 4. Build
       - name: 5. Npm build
-        run: npm run build --if-present
+        run: | 
+          cd api
+          npm run build --if-present
 
-      # 6. Run eslint
+      # 5. Run eslint
       - name: 6. Run eslint
-        run: npm run lint
+        run: |
+          cd api
+          npm run lint
 
-      # 7. Run tests
+      # 6. Run tests
       - name: 7. Run tests
-        run: npm run test
+        run: |
+          cd api
+          npm run test
