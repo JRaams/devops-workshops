@@ -1,0 +1,50 @@
+name: frontend
+
+on:
+  push:
+    paths:
+      - "frontend/**"
+  pull_request:
+    paths:
+      - "frontend/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+    steps:
+      # 1. Checks-out the repository under $GITHUB_WORKSPACE
+      - name: 1. Checkout repo
+        uses: actions/checkout@v2
+
+      # 2. Setup node.js environment
+      - name: 2. Setup node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # 3. Clean node_modules
+      - name: 3. Npm clean install
+        run: |
+          cd frontend
+          npm ci
+
+      # 4. Build
+      - name: 4. Npm build
+        run: | 
+          cd frontend
+          npm run build:prod
+
+      # 5. Run eslint
+      - name: 5. Run eslint
+        run: |
+          cd frontend
+          npm run lint
+
+      # 6. Run tests
+      - name: 6. Run tests
+        run: |
+          cd frontend
+          npm run test
