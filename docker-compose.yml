@@ -10,6 +10,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - '.docker/mongodata:/data/db:z'
   
   api:
     build:
@@ -24,3 +26,16 @@ services:
     volumes:
       - './api:/app:z'
     command: npm run dev-server
+  
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    ports:
+      - "4200:4200"
+    links:
+      - api
+    depends_on:
+      - api
+    volumes:
+      - './frontend:/home/node/app:z'
