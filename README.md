@@ -17,8 +17,8 @@ Setup env (api project)
 2. Start containers
 `$ podman-compose up -d`
 
-- API available on http://0.0.0.0:3000 
-- Frontend available on https://0.0.0.0:4200
+- Frontend available on https://0.0.0.0
+- API available on https://0.0.0.0/api
 
 ### Testing the project
 
