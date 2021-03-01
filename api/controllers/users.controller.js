@@ -48,13 +48,14 @@ exports.new = (req, res) => {
                 if (saveErr) {
                     res.status(400).json({
                         status: 'error',
-                        error: err,
+                        error: saveErr,
+                    });
+                } else {
+                    res.json({
+                        message: 'New user created!',
+                        data: user,
                     });
                 }
-                res.json({
-                    message: 'New user created!',
-                    data: user,
-                });
             });
         }
     });

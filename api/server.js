@@ -10,7 +10,11 @@ const mongoose = require('mongoose');
 
 const environment = require('./config/environment');
 
-app.use(cors());
+app.use(
+    cors({
+        origin: 'http://0.0.0.0:8080',
+    }),
+);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
