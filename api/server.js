@@ -13,7 +13,7 @@ const environment = require('./config/environment');
 app.use(
     cors({
         origin: 'http://0.0.0.0:8080',
-    })
+    }),
 );
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -58,7 +58,7 @@ app.use(
             }
             return null;
         },
-    }).unless({ path: ['/api/user/authenticate', '/api/users', '/index.html'] })
+    }).unless({ path: ['/api/user/authenticate', '/api/users', '/index.html'] }),
 );
 
 // Use Api routes in the App
