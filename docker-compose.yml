@@ -18,7 +18,7 @@ services:
       context: ./api
       dockerfile: ./Dockerfile
     expose:
-      - "3000"
+      - "5000"
     links:
       - mongo
     depends_on:
@@ -53,3 +53,10 @@ services:
     links:
       - api
       - frontend
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.2.0/24

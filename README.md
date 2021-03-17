@@ -15,10 +15,11 @@ Setup env (api project)
 `$ cp .env.example .env`
 
 2. Start containers
-`$ podman-compose up -d`
+   `$ docker-compose up -d`
 
 - Frontend available on https://0.0.0.0
 - API available on https://0.0.0.0/api
+- Prometheus metrics: https://0.0.0.0/api/metrics
 
 ### Testing the project
 

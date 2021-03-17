@@ -1,15 +1,23 @@
 const express = require('express');
-
-const app = express();
+const promBundle = require('express-prom-bundle');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const expressJwt = require('express-jwt');
-// Import Mongoose
 const mongoose = require('mongoose');
 
 const environment = require('./config/environment');
 
+const app = express();
+const metricsMiddleware = promBundle({
+    includeMethod: true,
+    includePath: true,
+    promClient: {
+        collectDefaultMetrics: {},
+    },
+});
+
+app.use(metricsMiddleware);
 app.use(
     cors({
         origin: 'http://0.0.0.0:8080',
@@ -58,24 +66,24 @@ app.use(
             }
             return null;
         },
-    }).unless({ path: ['/api/user/authenticate', '/api/users', '/index.html'] }),
+    }).unless({ path: ['/api/user/authenticate', '/api/users'] }),
 );
 
 // Use Api routes in the App
-app.use('/api', apiRoutes);
+app.use(apiRoutes);
 
 app.get('*', (req, res) => {
     if (allowedExt.filter((ext) => req.url.indexOf(ext) > 0).length > 0) {
         res.sendFile(path.resolve(`public/${req.url}`));
     } else {
-        res.sendFile(path.resolve('public/index.html'));
+        res.json({ message: 'what are you doing?' });
     }
 });
 
 const HOST = '0.0.0.0';
 // start server
 // Launch app to listen to specified port
-const server = app.listen(process.env.EXPRESS_PORT || 3000, HOST, () => {
+const server = app.listen(process.env.EXPRESS_PORT || 5000, HOST, () => {
     const PORT = server.address().port;
     // eslint-disable-next-line no-console
     console.log(`Running  on http://${HOST}:${PORT}`);
