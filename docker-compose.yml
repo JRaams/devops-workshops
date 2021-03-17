@@ -13,6 +13,16 @@ services:
     volumes:
       - ".docker/mongodata:/data/db:z"
 
+  db-exporter:
+    image: bitnami/mongodb-exporter:0.11
+    environment:
+      - MONGODB_URI=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017
+    restart: always
+    links:
+      - mongo
+    depends_on:
+      - mongo
+
   api:
     build:
       context: ./api
@@ -47,12 +57,14 @@ services:
       - "./.ssl/:/etc/nginx/ssl/:z"
     depends_on:
       - api
+      - db-exporter
     ports:
       - "80:80"
       - "443:443"
     links:
       - api
       - frontend
+      - db-exporter
 
 networks:
   default:

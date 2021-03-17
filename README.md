@@ -19,7 +19,8 @@ Setup env (api project)
 
 - Frontend available on https://0.0.0.0
 - API available on https://0.0.0.0/api
-- Prometheus metrics: https://0.0.0.0/api/metrics
+- Api prometheus metrics: https://0.0.0.0/api/metrics
+- Mongodb prometheus metrics: https://0.0.0.0/mongodb-metrics
 
 ### Testing the project
 
