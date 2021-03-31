@@ -65,6 +65,13 @@ services:
       - --web.route-prefix=/
       - --web.external-url=http://localhost/prometheus
 
+  grafana:
+    build:
+      context: .docker/grafana
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+
   nginx:
     image: nginx:latest
     volumes:
