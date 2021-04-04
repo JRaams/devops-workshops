@@ -7,6 +7,8 @@ const expressJwt = require('express-jwt');
 const mongoose = require('mongoose');
 
 const environment = require('./config/environment');
+const apiRoutes = require('./api-routes');
+const grafanaRoutes = require('./controllers/grafanatest.controller');
 
 const app = express();
 const metricsMiddleware = promBundle({
@@ -49,9 +51,6 @@ mongoose.connection.on('connected', () => {
 // addtional configuration when serving Angular SPA (static reource and Anugalr routing)
 const allowedExt = ['.js', '.ico', '.css', '.png', '.jpg', '.woff2', '.woff', '.ttf', '.svg', '.webmanifest'];
 
-// Import routes
-const apiRoutes = require('./api-routes');
-
 // use JWTauth to secure the api, the token can be passed in the authorization header or querystring
 app.use(
     expressJwt({
@@ -66,11 +65,11 @@ app.use(
             }
             return null;
         },
-    }).unless({ path: ['/api/user/authenticate', '/api/users'] }),
+    }).unless({ path: ['/', '/grafanatest', '/user/authenticate', '/users'] }),
 );
 
-// Use Api routes in the App
 app.use(apiRoutes);
+app.use(grafanaRoutes);
 
 app.get('*', (req, res) => {
     if (allowedExt.filter((ext) => req.url.indexOf(ext) > 0).length > 0) {
