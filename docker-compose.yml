@@ -57,8 +57,6 @@ services:
     volumes:
       - .docker/prometheus:/etc/prometheus:z
       - prometheus-data:/prometheus:z
-    ports:
-      - "9090:9090"
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-lifecycle
@@ -69,8 +67,9 @@ services:
     build:
       context: .docker/grafana
       dockerfile: ./Dockerfile
-    ports:
-      - 3000:3000
+    environment:
+      - GF_SERVER_ROOT_URL=http://localhost/grafana
+      - GF_SERVER_DOMAIN=localhost
 
   nginx:
     image: nginx:latest
@@ -81,6 +80,7 @@ services:
       - api
       - db-exporter
       - prometheus
+      - grafana
     ports:
       - "80:80"
       - "443:443"
@@ -89,6 +89,7 @@ services:
       - frontend
       - db-exporter
       - prometheus
+      - grafana
 
 volumes:
   prometheus-data:
