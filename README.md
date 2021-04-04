@@ -15,10 +15,15 @@ Setup env (api project)
 `$ cp .env.example .env`
 
 2. Start containers
-`$ podman-compose up -d`
+   `$ docker-compose up -d`
 
 - Frontend available on https://0.0.0.0
 - API available on https://0.0.0.0/api
+
+- Api metrics: https://0.0.0.0/api/metrics
+- Mongodb metrics: https://0.0.0.0/mongodb-metrics
+- Prometheus portal: https://0.0.0.0/prometheus
+- Grafana dashboard: https://0.0.0.0/grafana
 
 ### Testing the project
 

@@ -13,12 +13,24 @@ services:
     volumes:
       - ".docker/mongodata:/data/db:z"
 
+  db-exporter:
+    image: bitnami/mongodb-exporter:0.11
+    environment:
+      - MONGODB_URI=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017
+    restart: always
+    expose:
+      - "9216"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+
   api:
     build:
       context: ./api
       dockerfile: ./Dockerfile
     expose:
-      - "3000"
+      - "5000"
     links:
       - mongo
     depends_on:
@@ -40,6 +52,25 @@ services:
     volumes:
       - "./frontend:/home/node/app:z"
 
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - .docker/prometheus:/etc/prometheus:z
+      - prometheus-data:/prometheus:z
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-lifecycle
+      - --web.route-prefix=/
+      - --web.external-url=http://localhost/prometheus
+
+  grafana:
+    build:
+      context: .docker/grafana
+      dockerfile: ./Dockerfile
+    environment:
+      - GF_SERVER_ROOT_URL=http://localhost/grafana
+      - GF_SERVER_DOMAIN=localhost
+
   nginx:
     image: nginx:latest
     volumes:
@@ -47,9 +78,25 @@ services:
       - "./.ssl/:/etc/nginx/ssl/:z"
     depends_on:
       - api
+      - db-exporter
+      - prometheus
+      - grafana
     ports:
       - "80:80"
       - "443:443"
     links:
       - api
       - frontend
+      - db-exporter
+      - prometheus
+      - grafana
+
+volumes:
+  prometheus-data:
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.2.0/24
