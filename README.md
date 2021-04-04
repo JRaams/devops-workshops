@@ -23,6 +23,7 @@ Setup env (api project)
 - Api metrics: https://0.0.0.0/api/metrics
 - Mongodb metrics: https://0.0.0.0/mongodb-metrics
 - Prometheus portal: https://0.0.0.0/prometheus
+- Grafana dashboard: https://0.0.0.0/grafana
 
 ### Testing the project
 
