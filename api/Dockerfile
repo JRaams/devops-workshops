@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14.16.0
 
 WORKDIR /app
 RUN chown -R node:node /app
